@@ -20,7 +20,7 @@
         {
             @Html.AntiForgeryToken()
 
-            @if (!ViewData.ModelState.IsValid)
+            if (!ViewData.ModelState.IsValid)
             {
                 <div class="alert alert-danger">
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
