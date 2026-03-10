@@ -1,0 +1,386 @@
+@model IEnumerable<GetMediaFiles_Result>
+@using UploadPlayVideoFile.Models;
+@{
+    ViewBag.Title = "Media Files";
+}
+@Html.AntiForgeryToken()
+
+<div class="page-header">
+    <div class="header-content">
+        <h1>File Manager</h1>
+        <p class="subtitle">Upload and manage your media files</p>
+    </div>
+</div>
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <strong>Error:</strong> @TempData["Error"]
+    </div>
+}
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        @TempData["Success"]
+    </div>
+}
+
+<div class="upload-section">
+    <div id="dropZone" class="drop-zone">
+        <div class="drop-zone-content">
+            <div class="upload-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="17 8 12 3 7 8"></polyline>
+                    <line x1="12" y1="3" x2="12" y2="15"></line>
+                </svg>
+            </div>
+            <h3>Drag & Drop Files Here</h3>
+            <p>or click to browse</p>
+            <p class="file-types">Supports: Videos, PDFs, Documents, Images, Archives (Max 500MB)</p>
+            <input type="file" id="fileInput" class="file-input" multiple />
+        </div>
+    </div>
+
+    <div id="uploadQueue" class="upload-queue" style="display: none;">
+        <h4>Upload Queue</h4>
+        <div id="uploadList"></div>
+    </div>
+</div>
+
+<div class="files-section">
+    <div class="section-header">
+        <h2>Uploaded Files</h2>
+        <span class="file-count">@Model.Count() files</span>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="empty-state">
+            <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
+                <polyline points="13 2 13 9 20 9"></polyline>
+            </svg>
+            <h3>No files uploaded yet</h3>
+            <p>Drag and drop files above to get started</p>
+        </div>
+    }
+    else
+    {
+        <div class="files-grid">
+            @foreach (var item in Model)
+            {
+                string extension = System.IO.Path.GetExtension(item.filepath ?? "").ToLower();
+                bool isVideo = new[] { ".mp4", ".avi", ".mov", ".wmv", ".mkv", ".webm", ".flv" }.Contains(extension);
+                bool isImage = new[] { ".jpg", ".jpeg", ".png", ".gif", ".bmp", ".webp" }.Contains(extension);
+                bool isPdf = extension == ".pdf";
+
+                <div class="file-card" data-id="@item.mediaid">
+                    <div class="file-preview">
+                        @if (isVideo)
+                        {
+                            <video controls preload="metadata">
+                                <source src="@Url.Content(item.filepath)" type="video/mp4" />
+                                Your browser does not support the video tag.
+                            </video>
+                        }
+                        else if (isImage)
+                        {
+                            <img src="@Url.Content(item.filepath)" alt="@item.filename" />
+                        }
+                        else if (isPdf)
+                        {
+                            <div class="file-icon pdf">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                    <polyline points="14 2 14 8 20 8"></polyline>
+                                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                                    <polyline points="10 9 9 9 8 9"></polyline>
+                                </svg>
+                                <span>PDF</span>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="file-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
+                                    <polyline points="13 2 13 9 20 9"></polyline>
+                                </svg>
+                                <span>@extension.ToUpper().TrimStart('.')</span>
+                            </div>
+                        }
+                    </div>
+                    <div class="file-info">
+                        <h4 class="file-name" title="@item.filename">@item.filename</h4>
+                        <div class="file-meta">
+                            <span class="file-size">@FormatFileSize(item.filesize)</span>
+                            <span class="file-type">@extension.ToUpper().TrimStart('.')</span>
+                        </div>
+                    </div>
+                    <div class="file-actions">
+                        <a href="@Url.Content(item.filepath)" class="btn-action btn-download" download title="Download">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="7 10 12 15 17 10"></polyline>
+                                <line x1="12" y1="15" x2="12" y2="3"></line>
+                            </svg>
+                        </a>
+                        <button class="btn-action btn-delete" onclick="deleteFile(@item.mediaid)" title="Delete">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="3 6 5 6 21 6"></polyline>
+                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+@functions {
+    string FormatFileSize(int? sizeInKb)
+    {
+        if (!sizeInKb.HasValue) return "Unknown";
+
+        double size = sizeInKb.Value;
+        if (size < 1024)
+            return $"{size:F0} KB";
+        else if (size < 1024 * 1024)
+            return $"{size / 1024:F1} MB";
+        else
+            return $"{size / (1024 * 1024):F2} GB";
+    }
+}
+
+@section scripts {
+<script>
+    const CHUNK_SIZE = 5 * 1024 * 1024; // 5MB chunks - stays under Cloudflare limit
+
+    const dropZone = document.getElementById('dropZone');
+    const fileInput = document.getElementById('fileInput');
+    const uploadQueue = document.getElementById('uploadQueue');
+    const uploadList = document.getElementById('uploadList');
+
+    // Drag and drop handlers
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+        dropZone.addEventListener(eventName, preventDefaults, false);
+        document.body.addEventListener(eventName, preventDefaults, false);
+    });
+
+    function preventDefaults(e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+
+    ['dragenter', 'dragover'].forEach(eventName => {
+        dropZone.addEventListener(eventName, () => dropZone.classList.add('drag-over'), false);
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+        dropZone.addEventListener(eventName, () => dropZone.classList.remove('drag-over'), false);
+    });
+
+    dropZone.addEventListener('drop', handleDrop, false);
+    dropZone.addEventListener('click', () => fileInput.click());
+    fileInput.addEventListener('change', handleFileSelect);
+
+    function handleDrop(e) {
+        const files = e.dataTransfer.files;
+        handleFiles(files);
+    }
+
+    function handleFileSelect(e) {
+        const files = e.target.files;
+        handleFiles(files);
+    }
+
+    function handleFiles(files) {
+        if (files.length === 0) return;
+
+        uploadQueue.style.display = 'block';
+
+        Array.from(files).forEach(file => {
+            addToQueue(file);
+            uploadFile(file);
+        });
+    }
+
+    function addToQueue(file) {
+        const id = 'upload-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
+        const item = document.createElement('div');
+        item.className = 'upload-item';
+        item.id = id;
+        item.innerHTML = `
+            <div class="upload-item-info">
+                <span class="upload-item-name">${escapeHtml(file.name)}</span>
+                <span class="upload-item-size">${formatSize(file.size)}</span>
+            </div>
+            <div class="upload-progress">
+                <div class="progress-bar" style="width: 0%"></div>
+            </div>
+            <div class="upload-status">Preparing...</div>
+        `;
+        uploadList.appendChild(item);
+        return id;
+    }
+
+    async function uploadFile(file) {
+        const itemId = document.querySelector('.upload-item:last-child').id;
+        const item = document.getElementById(itemId);
+        const progressBar = item.querySelector('.progress-bar');
+        const status = item.querySelector('.upload-status');
+
+        try {
+            // For small files (under 50MB), use regular upload
+            if (file.size < 50 * 1024 * 1024) {
+                status.textContent = 'Uploading...';
+
+                const formData = new FormData();
+                formData.append('httpPostedFileBase', file);
+                formData.append('__RequestVerificationToken', document.querySelector('input[name="__RequestVerificationToken"]').value);
+
+                const xhr = new XMLHttpRequest();
+                xhr.open('POST', '@Url.Action("MediaFiles", "Home")', true);
+
+                xhr.upload.onprogress = (e) => {
+                    if (e.lengthComputable) {
+                        const percent = (e.loaded / e.total) * 100;
+                        progressBar.style.width = percent + '%';
+                        status.textContent = `Uploading... ${Math.round(percent)}%`;
+                    }
+                };
+
+                xhr.onload = () => {
+                    if (xhr.status === 200) {
+                        progressBar.style.width = '100%';
+                        item.classList.add('upload-complete');
+                        status.textContent = 'Complete!';
+                        setTimeout(() => location.reload(), 1000);
+                    } else {
+                        throw new Error('Upload failed');
+                    }
+                };
+
+                xhr.onerror = () => {
+                    throw new Error('Upload failed');
+                };
+
+                xhr.send(formData);
+            } else {
+                // Chunked upload for large files
+                await chunkedUpload(file, progressBar, status, item);
+            }
+        } catch (error) {
+            item.classList.add('upload-error');
+            status.textContent = 'Failed: ' + error.message;
+        }
+    }
+
+    async function chunkedUpload(file, progressBar, status, item) {
+        status.textContent = 'Initializing...';
+
+        // Initialize upload
+        const initResponse = await fetch('@Url.Action("InitializeChunkedUpload", "Home")', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: `fileName=${encodeURIComponent(file.name)}&fileSize=${file.size}`
+        });
+
+        const initData = await initResponse.json();
+        if (!initData.success) {
+            throw new Error(initData.error);
+        }
+
+        const uploadId = initData.uploadId;
+        const totalChunks = Math.ceil(file.size / CHUNK_SIZE);
+
+        // Upload chunks
+        for (let i = 0; i < totalChunks; i++) {
+            const start = i * CHUNK_SIZE;
+            const end = Math.min(start + CHUNK_SIZE, file.size);
+            const chunk = file.slice(start, end);
+
+            const formData = new FormData();
+            formData.append('chunk', chunk);
+            formData.append('uploadId', uploadId);
+            formData.append('chunkIndex', i);
+            formData.append('totalChunks', totalChunks);
+
+            const chunkResponse = await fetch('@Url.Action("UploadChunk", "Home")', {
+                method: 'POST',
+                body: formData
+            });
+
+            const chunkData = await chunkResponse.json();
+            if (!chunkData.success) {
+                throw new Error(chunkData.error);
+            }
+
+            const percent = ((i + 1) / totalChunks) * 100;
+            progressBar.style.width = percent + '%';
+            status.textContent = `Uploading... ${Math.round(percent)}% (Chunk ${i + 1}/${totalChunks})`;
+        }
+
+        // Complete upload
+        status.textContent = 'Finalizing...';
+        const completeResponse = await fetch('@Url.Action("CompleteChunkedUpload", "Home")', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: `uploadId=${uploadId}&totalChunks=${totalChunks}`
+        });
+
+        const completeData = await completeResponse.json();
+        if (!completeData.success) {
+            throw new Error(completeData.error);
+        }
+
+        progressBar.style.width = '100%';
+        item.classList.add('upload-complete');
+        status.textContent = 'Complete!';
+        setTimeout(() => location.reload(), 1000);
+    }
+
+    function deleteFile(id) {
+        if (!confirm('Are you sure you want to delete this file?')) return;
+
+        fetch('@Url.Action("DeleteFile", "Home")', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: `id=${id}`
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                const card = document.querySelector(`.file-card[data-id="${id}"]`);
+                card.style.opacity = '0';
+                card.style.transform = 'scale(0.8)';
+                setTimeout(() => card.remove(), 300);
+            } else {
+                alert('Error: ' + data.error);
+            }
+        })
+        .catch(error => {
+            alert('Error deleting file');
+        });
+    }
+
+    function formatSize(bytes) {
+        if (bytes < 1024) return bytes + ' B';
+        if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+        if (bytes < 1024 * 1024 * 1024) return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+        return (bytes / (1024 * 1024 * 1024)).toFixed(2) + ' GB';
+    }
+
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+</script>
+}

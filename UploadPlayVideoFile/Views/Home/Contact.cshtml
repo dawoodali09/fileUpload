@@ -1,0 +1,182 @@
+@{
+    ViewBag.Title = "Contact";
+}
+
+<div class="page-header">
+    <div class="header-content">
+        <h1>Contact Us</h1>
+        <p class="subtitle">Get in touch with our team</p>
+    </div>
+</div>
+
+<div class="contact-content">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="contact-card">
+                <h2>Get Support</h2>
+                <p>Have questions or need help with File Manager? We're here to assist you.</p>
+
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                <polyline points="22,6 12,13 2,6"></polyline>
+                            </svg>
+                        </div>
+                        <div>
+                            <strong>Email</strong>
+                            <a href="mailto:support@filemanager.com">support@filemanager.com</a>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                                <circle cx="12" cy="10" r="3"></circle>
+                            </svg>
+                        </div>
+                        <div>
+                            <strong>Location</strong>
+                            <span>Auckland, New Zealand</span>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg>
+                        </div>
+                        <div>
+                            <strong>Business Hours</strong>
+                            <span>Mon - Fri: 9:00 AM - 5:00 PM (NZST)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="contact-card">
+                <h2>Quick Links</h2>
+                <div class="quick-links">
+                    <a href="@Url.RouteUrl("MediaFiles")" class="quick-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="17 8 12 3 7 8"></polyline>
+                            <line x1="12" y1="3" x2="12" y2="15"></line>
+                        </svg>
+                        <span>Upload Files</span>
+                    </a>
+                    <a href="@Url.Action("About", "Home")" class="quick-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="16" x2="12" y2="12"></line>
+                            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                        </svg>
+                        <span>About File Manager</span>
+                    </a>
+                    <a href="@Url.Action("Index", "Home")" class="quick-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                        </svg>
+                        <span>Home Page</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .contact-content {
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+    .contact-card {
+        background: white;
+        border-radius: 12px;
+        padding: 30px;
+        box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        height: 100%;
+    }
+    .contact-card h2 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: #1e293b;
+        margin-bottom: 16px;
+    }
+    .contact-card > p {
+        color: #64748b;
+        margin-bottom: 24px;
+    }
+    .contact-info {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+    .contact-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 16px;
+    }
+    .contact-icon {
+        width: 44px;
+        height: 44px;
+        background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        flex-shrink: 0;
+    }
+    .contact-item strong {
+        display: block;
+        color: #1e293b;
+        margin-bottom: 4px;
+    }
+    .contact-item span,
+    .contact-item a {
+        color: #64748b;
+        text-decoration: none;
+    }
+    .contact-item a:hover {
+        color: #4f46e5;
+    }
+    .quick-links {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+    .quick-link {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 16px;
+        background: #f8fafc;
+        border-radius: 8px;
+        color: #1e293b;
+        text-decoration: none;
+        transition: all 0.2s;
+    }
+    .quick-link:hover {
+        background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+        color: white;
+        text-decoration: none;
+        transform: translateX(4px);
+    }
+    .quick-link svg {
+        color: #4f46e5;
+    }
+    .quick-link:hover svg {
+        color: white;
+    }
+    .quick-link span {
+        font-weight: 500;
+    }
+</style>

@@ -1,0 +1,192 @@
+@{
+    ViewBag.Title = "Home";
+}
+
+<div class="hero-section">
+    <div class="hero-content">
+        <h1>File Manager</h1>
+        <p class="lead">A powerful file upload and management solution with support for large files up to 500MB</p>
+        <a href="@Url.RouteUrl("MediaFiles")" class="btn-hero">Get Started</a>
+    </div>
+</div>
+
+<div class="features-section">
+    <h2 class="section-title">Key Features</h2>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="17 8 12 3 7 8"></polyline>
+                        <line x1="12" y1="3" x2="12" y2="15"></line>
+                    </svg>
+                </div>
+                <h3>Large File Uploads</h3>
+                <p>Upload files up to 500MB with chunked upload technology that bypasses CDN limits and ensures reliable transfers.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                        <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                        <polyline points="21 15 16 10 5 21"></polyline>
+                    </svg>
+                </div>
+                <h3>Multiple File Types</h3>
+                <p>Support for videos, PDFs, documents, images, and archives. Preview videos and images directly in the browser.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                    </svg>
+                </div>
+                <h3>Real-time Progress</h3>
+                <p>Track upload progress with a visual progress bar. Drag and drop files or click to browse.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="supported-section">
+    <h2 class="section-title">Supported File Types</h2>
+    <div class="file-types-grid">
+        <div class="file-type-item">
+            <span class="file-type-badge video">VIDEO</span>
+            <span>MP4, AVI, MOV, WMV, MKV, WebM, FLV</span>
+        </div>
+        <div class="file-type-item">
+            <span class="file-type-badge document">DOCS</span>
+            <span>PDF, DOC, DOCX, XLS, XLSX, PPT, PPTX</span>
+        </div>
+        <div class="file-type-item">
+            <span class="file-type-badge image">IMAGE</span>
+            <span>JPG, JPEG, PNG, GIF, BMP, WebP</span>
+        </div>
+        <div class="file-type-item">
+            <span class="file-type-badge archive">ARCHIVE</span>
+            <span>ZIP, RAR, 7Z, TAR, GZ</span>
+        </div>
+    </div>
+</div>
+
+<style>
+    .hero-section {
+        background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+        margin: -20px -15px 40px;
+        padding: 80px 40px;
+        text-align: center;
+        color: white;
+        border-radius: 0 0 12px 12px;
+    }
+    .hero-content h1 {
+        font-size: 3rem;
+        font-weight: 700;
+        margin-bottom: 16px;
+    }
+    .hero-content .lead {
+        font-size: 1.25rem;
+        opacity: 0.95;
+        max-width: 600px;
+        margin: 0 auto 30px;
+    }
+    .btn-hero {
+        display: inline-block;
+        background: white;
+        color: #4f46e5;
+        padding: 14px 32px;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 1.1rem;
+        text-decoration: none;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .btn-hero:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        text-decoration: none;
+        color: #4f46e5;
+    }
+    .section-title {
+        text-align: center;
+        font-size: 1.75rem;
+        font-weight: 600;
+        margin-bottom: 40px;
+        color: #1e293b;
+    }
+    .features-section {
+        margin-bottom: 60px;
+    }
+    .feature-card {
+        background: white;
+        border-radius: 12px;
+        padding: 30px;
+        text-align: center;
+        box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        height: 100%;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .feature-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+    }
+    .feature-icon {
+        color: #4f46e5;
+        margin-bottom: 20px;
+    }
+    .feature-card h3 {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 12px;
+        color: #1e293b;
+    }
+    .feature-card p {
+        color: #64748b;
+        margin: 0;
+        line-height: 1.6;
+    }
+    .supported-section {
+        background: white;
+        border-radius: 12px;
+        padding: 40px;
+        margin-bottom: 40px;
+        box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+    }
+    .file-types-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 20px;
+    }
+    .file-type-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 16px;
+        background: #f8fafc;
+        border-radius: 8px;
+    }
+    .file-type-badge {
+        padding: 6px 12px;
+        border-radius: 6px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: white;
+    }
+    .file-type-badge.video { background: #ef4444; }
+    .file-type-badge.document { background: #3b82f6; }
+    .file-type-badge.image { background: #10b981; }
+    .file-type-badge.archive { background: #f59e0b; }
+    .file-type-item span:last-child {
+        color: #64748b;
+        font-size: 0.9rem;
+    }
+    @@media (max-width: 768px) {
+        .hero-content h1 { font-size: 2rem; }
+        .hero-section { padding: 50px 20px; }
+    }
+</style>

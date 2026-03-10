@@ -1,0 +1,166 @@
+@{
+    ViewBag.Title = "About";
+}
+
+<div class="page-header">
+    <div class="header-content">
+        <h1>About File Manager</h1>
+        <p class="subtitle">A modern solution for managing your files</p>
+    </div>
+</div>
+
+<div class="about-content">
+    <div class="about-section">
+        <h2>What is File Manager?</h2>
+        <p>
+            File Manager is a powerful web-based file upload and management application built with ASP.NET MVC.
+            It provides a seamless experience for uploading, organizing, and accessing your files from anywhere.
+        </p>
+        <p>
+            Whether you need to upload large video files, share documents, or manage image galleries,
+            File Manager handles it all with an intuitive drag-and-drop interface and real-time progress tracking.
+        </p>
+    </div>
+
+    <div class="about-section">
+        <h2>Key Capabilities</h2>
+        <div class="capabilities-grid">
+            <div class="capability-item">
+                <div class="capability-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="17 8 12 3 7 8"></polyline>
+                        <line x1="12" y1="3" x2="12" y2="15"></line>
+                    </svg>
+                </div>
+                <div>
+                    <h4>500MB File Uploads</h4>
+                    <p>Upload large files with chunked transfer technology that ensures reliable delivery.</p>
+                </div>
+            </div>
+            <div class="capability-item">
+                <div class="capability-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                    </svg>
+                </div>
+                <div>
+                    <h4>CDN Compatible</h4>
+                    <p>Works seamlessly with Cloudflare and other CDNs using intelligent chunked uploads.</p>
+                </div>
+            </div>
+            <div class="capability-item">
+                <div class="capability-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                    </svg>
+                </div>
+                <div>
+                    <h4>Fast & Responsive</h4>
+                    <p>Modern UI with drag-and-drop support and real-time upload progress.</p>
+                </div>
+            </div>
+            <div class="capability-item">
+                <div class="capability-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                        <polyline points="14 2 14 8 20 8"></polyline>
+                    </svg>
+                </div>
+                <div>
+                    <h4>Multiple File Types</h4>
+                    <p>Support for videos, PDFs, documents, images, and compressed archives.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="about-section">
+        <h2>Technology Stack</h2>
+        <div class="tech-stack">
+            <span class="tech-badge">ASP.NET MVC 5</span>
+            <span class="tech-badge">.NET Framework 4.7.2</span>
+            <span class="tech-badge">Entity Framework 6</span>
+            <span class="tech-badge">SQL Server</span>
+            <span class="tech-badge">Bootstrap</span>
+            <span class="tech-badge">jQuery</span>
+        </div>
+    </div>
+</div>
+
+<style>
+    .about-content {
+        max-width: 900px;
+        margin: 0 auto;
+    }
+    .about-section {
+        background: white;
+        border-radius: 12px;
+        padding: 30px;
+        margin-bottom: 24px;
+        box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+    }
+    .about-section h2 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: #1e293b;
+        margin-bottom: 16px;
+    }
+    .about-section p {
+        color: #64748b;
+        line-height: 1.7;
+        margin-bottom: 12px;
+    }
+    .about-section p:last-child {
+        margin-bottom: 0;
+    }
+    .capabilities-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+        margin-top: 20px;
+    }
+    .capability-item {
+        display: flex;
+        gap: 16px;
+        padding: 20px;
+        background: #f8fafc;
+        border-radius: 8px;
+    }
+    .capability-icon {
+        flex-shrink: 0;
+        width: 48px;
+        height: 48px;
+        background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+    }
+    .capability-item h4 {
+        margin: 0 0 6px;
+        font-size: 1rem;
+        font-weight: 600;
+        color: #1e293b;
+    }
+    .capability-item p {
+        margin: 0;
+        font-size: 0.9rem;
+        color: #64748b;
+    }
+    .tech-stack {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 16px;
+    }
+    .tech-badge {
+        background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+        color: white;
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        font-weight: 500;
+    }
+</style>
