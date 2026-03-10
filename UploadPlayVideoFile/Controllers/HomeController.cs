@@ -3,15 +3,19 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using UploadPlayVideoFile.Models;
 
 namespace UploadPlayVideoFile.Controllers
 {
     public class HomeController : Controller
     {
+        // Hardcoded credentials - in production, use a secure store
+        private const string AdminUsername = "admin";
+        private const string AdminPassword = "cm45bike";
+
         private static readonly HashSet<string> AllowedExtensions = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
         {
             ".mp4", ".avi", ".mov", ".wmv", ".mkv", ".webm", ".flv",
@@ -39,6 +43,54 @@ namespace UploadPlayVideoFile.Controllers
             return View();
         }
 
+        #region Authentication
+
+        [HttpGet]
+        public ActionResult Login(string returnUrl)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("MediaFiles");
+            }
+            ViewBag.ReturnUrl = returnUrl;
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Login(LoginViewModel model, string returnUrl)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            if (model.Username == AdminUsername && model.Password == AdminPassword)
+            {
+                FormsAuthentication.SetAuthCookie(model.Username, model.RememberMe);
+
+                if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+                {
+                    return Redirect(returnUrl);
+                }
+                return RedirectToAction("MediaFiles");
+            }
+
+            ModelState.AddModelError("", "Invalid username or password.");
+            return View(model);
+        }
+
+        public ActionResult Logout()
+        {
+            FormsAuthentication.SignOut();
+            return RedirectToAction("Index");
+        }
+
+        #endregion
+
+        #region Media Files (Protected)
+
+        [Authorize]
         [HttpGet]
         public ActionResult MediaFiles()
         {
@@ -50,6 +102,7 @@ namespace UploadPlayVideoFile.Controllers
             return View(listMediaFiles);
         }
 
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult MediaFiles(HttpPostedFileBase httpPostedFileBase)
@@ -109,6 +162,7 @@ namespace UploadPlayVideoFile.Controllers
             return RedirectToAction("MediaFiles");
         }
 
+        [Authorize]
         [HttpPost]
         public JsonResult InitializeChunkedUpload(string fileName, long fileSize)
         {
@@ -150,6 +204,7 @@ namespace UploadPlayVideoFile.Controllers
             }
         }
 
+        [Authorize]
         [HttpPost]
         public JsonResult UploadChunk(string uploadId, int chunkIndex, int totalChunks)
         {
@@ -179,6 +234,7 @@ namespace UploadPlayVideoFile.Controllers
             }
         }
 
+        [Authorize]
         [HttpPost]
         public JsonResult CompleteChunkedUpload(string uploadId, int totalChunks)
         {
@@ -252,6 +308,7 @@ namespace UploadPlayVideoFile.Controllers
             }
         }
 
+        [Authorize]
         [HttpPost]
         public JsonResult DeleteFile(int id)
         {
@@ -282,6 +339,8 @@ namespace UploadPlayVideoFile.Controllers
                 return Json(new { success = false, error = ex.Message });
             }
         }
+
+        #endregion
 
         private static string SanitizeFileName(string fileName)
         {

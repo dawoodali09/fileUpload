@@ -543,3 +543,34 @@ textarea {
 .file-card {
     animation: fadeIn 0.3s ease-out;
 }
+
+/* Auth Navigation Styles */
+.user-greeting {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: rgba(255, 255, 255, 0.9) !important;
+    padding: 15px 10px !important;
+}
+
+.user-icon {
+    display: inline-flex;
+    align-items: center;
+}
+
+.user-icon svg {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.login-link,
+.logout-link {
+    color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.navbar-inverse .navbar-nav > li > .logout-link:hover {
+    color: #ff6b6b !important;
+}
+
+.navbar-inverse .navbar-nav > li > .login-link:hover {
+    color: #4ade80 !important;
+}

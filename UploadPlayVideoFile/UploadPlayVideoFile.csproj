@@ -133,6 +133,7 @@
     <Compile Include="Models\GetMediaFiles_Result.cs">
       <DependentUpon>MediaModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Models\MediaFile.cs">
       <DependentUpon>MediaModel.tt</DependentUpon>
     </Compile>
@@ -205,6 +206,7 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Home\MediaFiles.cshtml" />
   </ItemGroup>
   <ItemGroup>
